@@ -7,13 +7,13 @@ const sha1 = require('sha1');
 const createToken = require('../token/createToken')
 
 /**
- * 根据用户名查找用户
- * @param  {String} username 用户名
+ * 根据查询条件查询用户
+ * @param  {Object} 查询条件 example: {username: username}
  * @return {Promise}         返回一个Promise实例
  */
-const findUser = username => {
+const findUser = condition => {
   return new Promise((resolve, reject) => {
-    User.findOne({ username }, (error, doc) => {
+    User.findOne(condition, (error, doc) => {
       if (error) reject(err)
       resolve(doc)
     })
@@ -55,7 +55,7 @@ const Reg = async ctx => {
   // 将objectid转换为用户创建时间
   user.create_time = moment(objectIdToTimestamp(user._id)).format('YYYY-MM-DD HH:mm:ss')
 
-  let doc = await findUser(user.username)
+  let doc = await findUser({ username: user.username })
 
   if (doc) {
     console.log('用户名已经存在')
@@ -84,13 +84,13 @@ const Login = async ctx => {
   let username = ctx.request.body.username
   let password = sha1(ctx.request.body.password)
 
-  let doc = await findUser(username)
+  let doc = await findUser({ username })
 
   if (!doc) {
     console.log('检查到用户名不存在')
     ctx.status = 200
     ctx.body = {
-      info: false
+      success: false
     }
   } else if (doc.password === password) {
     console.log('密码一致')

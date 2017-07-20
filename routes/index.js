@@ -1,6 +1,7 @@
 // const fs = require('fs')
 // const path = require('path')
 const router = require('koa-router')()
+const package = require('../package')
 
 router.get('/', async (ctx, next) => {
   // koa-static处于middleware靠前的未知，代理到index.html
@@ -11,6 +12,13 @@ router.get('/', async (ctx, next) => {
   //     resolve()
   //   })
   // })
+})
+
+router.get('/version', async (ctx, next) => {
+  ctx.body = {
+    version: package.version,
+    name: package.name
+  }
 })
 
 module.exports = router

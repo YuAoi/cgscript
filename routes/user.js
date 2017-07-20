@@ -5,8 +5,8 @@ const UserController = require('../controllers/user')
 const checkToken = require('../token/checkToken')
 // router.prefix('/user')
 
-router.post('/login', UserController.Login)
 router.post('/register', UserController.Reg)
+router.post('/login', UserController.Login)
 
 router.get('/users', checkToken, UserController.GetAllUsers)
 router.post('/deluser', checkToken, UserController.DelUser)
