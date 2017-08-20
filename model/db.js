@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const User = require('./user')
 
-mongoose.connect('mongodb://localhost:27017/cgscript', {
+mongoose.connect('mongodb://10.19.161.122:8336/cgscript', {
   useMongoClient: true
 })
 
